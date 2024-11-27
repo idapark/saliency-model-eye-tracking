@@ -27,7 +27,7 @@ The findings, while insightful, revealed limitations in the precision of the sof
 
 ---
 ## Experimental Setup
-- Setup: WebGazer was installed using Brew and Node.js. Dependencies were resolved using an older version of Node.js.
+- Setup: WebGazer was installed using Brew and Node.js. Dependencies were resolved using an older version of Node.js. To run the code, run the main.js file after the WebGazer has been installed.
 - Calibration: Participants were asked to calibrate the software by clicking dots while focusing on them.
 - Data Collection: Eye movements were recorded during interactions with three UI iterations of a Fazer Café website.
 - Analysis: Data was normalized, visualized, and analyzed using Python.
