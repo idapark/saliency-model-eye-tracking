@@ -45,5 +45,5 @@ The findings, while insightful, revealed limitations in the precision of the sof
 ## Acknowledgments
 This assignment was completed as part of the course ELEC-E7852 taught by Antti Oulasvirta during Fall 2024. Special thanks to WebGazer developers for the open-source eye-tracking tool.
 
-## References:
+## References
 https://webgazer.cs.brown.edu/
