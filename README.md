@@ -1,8 +1,11 @@
 # Eye Tracking Experiment using WebGazer
 
-This repository contains the implementation, data analysis, and report for an eye-tracking experiment conducted as part of the course ELEC-E7852 Computational Design Interaction during Fall 2024 at Aalto University. The experiment utilized WebGazer to track eye movement across different UI iterations and analyzed visual attention patterns.
+This repository contains the implementation, data analysis, and report for an eye-tracking experiment conducted as part of the course ELEC-E7852 Computational Design Interaction during Fall 2024 at Aalto University. The experiment utilized WebGazer to track eye movement across different UI iterations and analyzed visual attention patterns. The project builds up on a previous assignmnet about visual flow.
 
 See the full report: [Here](/report.pdf)
+
+![image](https://github.com/user-attachments/assets/af7f8bbc-3225-46be-a859-be84be3a5acb)
+
 
 ---
 
