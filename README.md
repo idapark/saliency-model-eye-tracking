@@ -2,7 +2,7 @@
 
 This repository contains the implementation, data analysis, and report for an eye-tracking experiment conducted as part of the course ELEC-E7852 Computational Design Interaction during Fall 2024 at Aalto University. The experiment utilized WebGazer to track eye movement across different UI iterations and analyzed visual attention patterns.
 
-See the full report: [Here](saliency-model-eye-tracking/report.pdf)
+See the full report: [Here](/report.pdf)
 
 ---
 
