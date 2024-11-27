@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>WebGazer with CSV Download</title>
+  <style>
+    body {
+      background-image: url('picture3.png');
+      background-size: 80%;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh; 
+      margin: 0;
+    }
+    #gazeIndicator {
+      position: absolute;
+      background-color: red;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    .calibrationPoint {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: green;
+      border: none;
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+    #downloadDataButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Gaze Indicator -->
+  <div id="gazeIndicator"></div>
+
+  <!-- Calibration Points -->
+  <div id="calibrationContainer" style="display: none;">
+    <button class="calibrationPoint" style="top: 10%; left: 10%;"></button>
+    <button class="calibrationPoint" style="top: 10%; left: 50%;"></button>
+    <button class="calibrationPoint" style="top: 10%; left: 90%;"></button>
+    <button class="calibrationPoint" style="top: 50%; left: 10%;"></button>
+    <button class="calibrationPoint" style="top: 50%; left: 50%;"></button>
+    <button class="calibrationPoint" style="top: 50%; left: 90%;"></button>
+    <button class="calibrationPoint" style="top: 90%; left: 10%;"></button>
+    <button class="calibrationPoint" style="top: 90%; left: 50%;"></button>
+    <button class="calibrationPoint" style="top: 90%; left: 90%;"></button>
+  </div>
+
+  <!-- Download Button -->
+  <button id="downloadDataButton" style="display: none;">Download Gaze Data as CSV</button>
+
+  <!-- Include WebGazer -->
+  <script src="WebGazer/dist/webgazer.js"></script>
+
+  <script>
+    let gazeData = []; // Array to store gaze data
+
+    window.onload = async function() {
+      await webgazer.setRegression('ridge')
+        .setGazeListener(function(data, elapsedTime) {
+          if (data == null) {
+            return;
+          }
+          const x = data.x;
+          const y = data.y;
+          const timestamp = Date.now(); 
+          console.log(`Gaze coordinates: (${x}, ${y})`);
+
+          // Update the position of the gaze indicator
+          const gazeIndicator = document.getElementById('gazeIndicator');
+          gazeIndicator.style.left = (x - 10) + 'px';
+          gazeIndicator.style.top = (y - 10) + 'px';
+
+          // Store the data point as an array of CSV-friendly values
+          gazeData.push([x, y, timestamp]);
+        })
+        .saveDataAcrossSessions(true)
+        .begin();
+
+      // Hide video preview and feedback boxes
+      webgazer.showVideoPreview(false)
+        .showPredictionPoints(false)
+        .applyKalmanFilter(true);
+
+      // Start calibration
+      startCalibration();
+    };
+
+    window.onbeforeunload = function() {
+      webgazer.end();
+    };
+
+    // Calibration logic
+    function startCalibration() {
+      document.getElementById('calibrationContainer').style.display = 'block';
+    }
+
+    let calibrationClicks = 0;
+    const totalCalibrationPoints = document.querySelectorAll('.calibrationPoint').length;
+    document.querySelectorAll('.calibrationPoint').forEach(function(button) {
+      button.addEventListener('click', function(event) {
+        webgazer.recordScreenPosition(event.clientX, event.clientY, 'click');
+        button.style.backgroundColor = 'yellow'; // Indicate calibration point clicked
+        calibrationClicks++;
+        if (calibrationClicks >= totalCalibrationPoints) {
+          endCalibration();
+        }
+      });
+    });
+
+    function endCalibration() {
+      document.getElementById('calibrationContainer').style.display = 'none';
+      document.getElementById('downloadDataButton').style.display = 'block';
+    }
+
+    // Download data as CSV
+    document.getElementById('downloadDataButton').addEventListener('click', function() {
+      // Convert gaze data to CSV format
+      let csvContent = "x,y,timestamp\n"; // Header row
+      gazeData.forEach(function(item) {
+        csvContent += `${item[0]},${item[1]},${item[2]}\n`;
+      });
+
+      // Create a link to download the CSV file
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'gazeData.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
