@@ -11,7 +11,7 @@ See the full report: [Here](/report.pdf)
 
 ## Overview
 
-The primary objective of this assignment was to explore the use of eye-tracking software in user interface analysis. This was achieved by:
+The primary objective of this assignment was to explore the use of eye-tracking software in user interface analysis. In this experiment, I analyzed the main website for Fazer Cafe. This was achieved by:
 
 1. Calibrating an eye-tracking tool using WebGazer.
 2. Gathering and processing eye-tracking data.
